@@ -19,9 +19,9 @@ const handleRequest = function(request, response) {
   if(request.url === '/') {
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.end(fs.readFileSync('index.html'));
-  } else if(request.url === '/webrtc.js') {
+  } else if(request.url === '/client.js') {
     response.writeHead(200, {'Content-Type': 'application/javascript'});
-    response.end(fs.readFileSync('webrtc.js'));
+    response.end(fs.readFileSync('client.js'));
   } else {
     response.writeHead(404);
     response.end();
