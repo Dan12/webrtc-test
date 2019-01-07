@@ -28,6 +28,9 @@ class WebsocketConnection {
       // send an init uuid broadcast
       this.send({new_uuid: this.uuid});
     }
+    this.serverConnection.onclose = (event) => {
+      console.log("closed websocket");
+    }
 
     this.connections = {};
   }
@@ -35,6 +38,10 @@ class WebsocketConnection {
   send(data) {
     data.uuid = this.uuid;
     this.serverConnection.send(JSON.stringify(data));
+  }
+
+  close() {
+    this.serverConnection.close();
   }
 
   handleWSMessage(msg) {
@@ -58,6 +65,7 @@ class WebsocketConnection {
       })
       uuidsElt.appendChild(uuidElt);
     } else if (data.to_uuid == this.uuid) {
+      // create a new connection for the peer if it doesn't already exist
       if (!this.connections[data.uuid]) {
         this.connections[data.uuid] = new PeerConnection(this, data.uuid, false);
       }
